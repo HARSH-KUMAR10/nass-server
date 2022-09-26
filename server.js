@@ -35,7 +35,17 @@ app.post("/google",async(req,res)=>{
     }catch(err){
         res.json({statusCode:500,message:"Server Occured",data:err});
     }
-})
+});
+
+app.post("/wiki",async(req,res)=>{
+    try{
+    const {search} = req.body;
+    result = await get_wiki(search);
+    res.json({data:result,statusCode:200,message:"Found output"});
+    }catch(err){
+        res.json({statusCode:500,message:"Server Occured",data:err});
+    }
+});
 
 app.post("/wiki",async(req,res)=>{
     try{

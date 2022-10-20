@@ -17,7 +17,7 @@ async function get_google(search) {
   );
   const dom = await new JSDOM(result.data);
   spanList = dom.window.document.querySelectorAll("div.gs_rs");
-  var response = spanList[1].textContent;
+  var response = spanList[7].textContent;
   return response;
 }
 
@@ -26,7 +26,7 @@ async function get_wiki(search) {
   const dom = await new JSDOM(result.data);
   spanList = dom.window.document.querySelectorAll("p");
   var response = "";
-  response = spanList[25].textContent;
+  response = spanList[7].textContent;
   return response;
 }
 

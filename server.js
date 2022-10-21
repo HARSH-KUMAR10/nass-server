@@ -7,11 +7,17 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(cors());
 
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(bodyParser.json())
+
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const axios = require("axios");
 
 async function get_google(search) {
+  console.log(search);
   const result = await axios(
     `https://scholar.google.com/scholar?q=${search}+computer+networks`
   );
@@ -22,6 +28,7 @@ async function get_google(search) {
 }
 
 async function get_wiki(search) {
+  console.log(search);
   const result = await axios(`https://en.wikipedia.org/wiki/${search}`);
   const dom = await new JSDOM(result.data);
   spanList = dom.window.document.querySelectorAll("p");
@@ -55,9 +62,11 @@ async function get_ibm(search) {
   return result.data.results[0].text;
 }
 
-app.post("/google", async (req, res) => {
+app.get("/google", async (req, res) => {
   try {
-    const { search } = req.body;
+    const { search } = req.query;
+    console.log("Google route : ");
+    console.log(req.query);
     result = await get_google(search);
     res.json({ data: result, statusCode: 200, message: "Found output" });
   } catch (err) {
@@ -65,9 +74,9 @@ app.post("/google", async (req, res) => {
   }
 });
 
-app.post("/wiki", async (req, res) => {
+app.get("/wiki", async (req, res) => {
   try {
-    const { search } = req.body;
+    const { search } = req.query;
     result = await get_wiki(search);
     res.json({ data: result, statusCode: 200, message: "Found output" });
   } catch (err) {

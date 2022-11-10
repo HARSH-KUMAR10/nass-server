@@ -68,8 +68,10 @@ app.get("/google", async (req, res) => {
     console.log("Google route : ");
     console.log(req.query);
     result = await get_google(search);
+    console.log({ data: result, statusCode: 200, message: "Found output" });
     res.json({ data: result, statusCode: 200, message: "Found output" });
   } catch (err) {
+    console.log({ statusCode: 500, message: "Server Occured", data: err });
     res.json({ statusCode: 500, message: "Server Occured", data: err });
   }
 });
